@@ -23,23 +23,33 @@ namespace SimpleTest
             var testclass = new MyClass() { };
 
             Stopwatch sw = new Stopwatch();
-            Console.WriteLine(ToStringerHolder.GetString(testclass));
+            Console.WriteLine(ToStringer<MyClass>.GetString(testclass));
+            Console.WriteLine(ToStringer.GetString(testclass));
             Console.WriteLine(testclass.ToString());
             sw.Start();
-            for (int i = 0; i < 10000000; i++)
+            for (int i = 0; i < 2000000; i++)
             {
-                var y = ToStringerHolder.GetString(testclass);
+                var y = ToStringer<MyClass>.GetString(testclass);
             }
             sw.Stop();
             Console.WriteLine(sw.Elapsed.TotalMilliseconds);
             sw.Reset();
             sw.Start();
-            for (int i = 0; i < 10000000; i++)
+            for (int i = 0; i < 2000000; i++)
+            {
+                var y = ToStringer.GetString(testclass);
+            }
+            sw.Stop();
+            Console.WriteLine(sw.Elapsed.TotalMilliseconds);
+            sw.Reset();
+            sw.Start();
+            for (int i = 0; i < 2000000; i++)
             {
                 var y = testclass.ToString();
             }
             sw.Stop();
             Console.WriteLine(sw.Elapsed.TotalMilliseconds);
+            Console.ReadKey();
         }
     }
 }

@@ -1,49 +1,44 @@
-﻿using System;
+using System;
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
 namespace PocoToStringer
 {
     [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-    internal sealed class ToStringer<T> : IToStringer where T : class
+    public static class ToStringer<T> where T : class
     {
+        private static ToStringerInternal<T> s_toStringerInternal;
+
+        static ToStringer()
+        {
+            var genericType = typeof(ToStringerInternal<>).MakeGenericType(typeof(T));
+            s_toStringerInternal = (ToStringerInternal<T>)Activator.CreateInstance(genericType);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Expression GetToStringExpression(MemberExpression memberExpression)
+        public static string GetString(T value) => s_toStringerInternal.GetString(value);
+    }
+
+    [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
+    public static class ToStringer
+    {
+        private static ConcurrentDictionary<Type, IToStringer> dictionary;
+        static ToStringer() => dictionary = new ConcurrentDictionary<Type, IToStringer>();
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string GetString(object value)
         {
-            if (!memberExpression.Type.IsClass)
+            IToStringer toStringer;
+            dictionary.TryGetValue(value.GetType(), out toStringer);
+            if (toStringer != null)
             {
-                return Expression.Call(memberExpression, "ToString", null, null);
+                return toStringer.GetString(value);
             }
-            if (memberExpression.Type.Assembly.Location.IndexOf("Microsoft.Net", StringComparison.OrdinalIgnoreCase) >= 0)
-            {
-                return Expression.Call(MethodInfoHolder.MethodAddString, memberExpression);
-            }
-            return Expression.Call(MethodInfoHolder.MethodGetStringFromDictionary, memberExpression);
-        }
-        private Func<T, StringFormatter, string> _func;
-        public ToStringer()
-        {
-            ParameterExpression parameter = Expression.Parameter(typeof(T), "T");
-            ParameterExpression sum = Expression.Parameter(typeof(string), "stringForReturn");
-            ParameterExpression stringFromatter = Expression.Parameter(typeof(StringFormatter), "stringFormatter");
-            Expression block = Expression.Block(
-                new[] { sum }, Expression.Block(typeof(T).GetProperties()
-                    .Select(info => Expression.Property(parameter, info.Name))
-                    .Select(
-                        info => Expression.Call(stringFromatter, "Add", new Type[] { }, GetToStringExpression(info), Expression.Constant(info.Member.Name))
-                    )), Expression.Call(stringFromatter, "ToString", null, null));
-            if (block.CanReduce)
-            {
-                block = block.Reduce();
-            }
-            _func = Expression.Lambda<Func<T, StringFormatter, string>>(block, parameter, stringFromatter)
-                .Compile();
-        }
-        public string GetString(object value)
-        {
-            return _func((T)value, new StringFormatter());
+            var genericType = typeof(ToStringerForDictionary<>).MakeGenericType(value.GetType());
+            var instance = (IToStringer)Activator.CreateInstance(genericType);
+            dictionary.TryAdd(value.GetType(), instance);
+            return instance.GetString(value);
         }
     }
 }

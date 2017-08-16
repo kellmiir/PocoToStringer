@@ -45,8 +45,8 @@
     <Compile Include="MethodInfoHolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringFormatter.cs" />
+    <Compile Include="ToStringerInternal.cs" />
     <Compile Include="ToStringer.cs" />
-    <Compile Include="ToStringerHolder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
