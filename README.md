@@ -11,16 +11,22 @@
     {
         public string StringProperty { get; set; } = "I'am string";
         public IPAddress IpAddress { get; set; }=IPAddress.Loopback;
-        public Test2Class Test2ClassProp { get; set; }= new Iest2Class();
+        public Test2Class Test2ClassProp { get; set; }= new Test2Class();
     }
 ```
   You can write only one row:
 ```csharp
-ToStringerHolder.GetString(new TestClass())
+ToStringer.GetString(new TestClass())
 ```
   and get a string like this -
 "StringProperty: I'am string, IpAddress: 127.0.0.1, Test2ClassProp: Integer: 234234, Double: 9,6"
-
-## Speed
-  You can get test from [here](https://github.com/kellmiir/PocoToStringer/tree/master/PocoToStringer/SimpleTest).
-  There’s a more complicated example on my computer [which can be viewed here](https://github.com/kellmiir/PocoToStringer/blob/master/PocoToStringer/SimpleTest/ClassForTest.cs) that performs 10 000 000 iterations during 16368 milliseconds while getting the same string using overriding method ToString took 17383 milliseconds
+ToStringer.GetString use ConcurrentDictionary, so it have overhead. Especially in the case of multithreaded access.
+You can use generic version of ToStringer he does not have such problems.
+```csharp
+ToStringer.GetString<TestClass>(new TestClass())
+```
+# Configuration
+ You can change default string formatter:
+ ```csharp
+ PocoToStringerConfiguration.SetPocoFormatter<DefaultPocoFormatter>();
+```
