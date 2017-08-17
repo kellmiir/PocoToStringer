@@ -19,7 +19,7 @@ namespace SimpleTest
         public void Test()
         {
 
-
+            PocoToStringerConfiguration.SetPocoFormatter<DefaultPocoFormatter>();
             var testclass = new MyClass() { };
 
             Stopwatch sw = new Stopwatch();

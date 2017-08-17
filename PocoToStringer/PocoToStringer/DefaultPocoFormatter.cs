@@ -4,12 +4,18 @@ using System.Text;
 
 namespace PocoToStringer
 {
+    public interface IPocoFormatter
+    {
+        void Add(string toAdd, string parameterName);
+        string ToString();
+    }
+
     [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-    internal class StringFormatter
+    public class DefaultPocoFormatter : IPocoFormatter
     {
         private bool _isFirstPropertyAdd;
         private StringBuilder _stringBuilder;
-        internal StringFormatter()
+        public DefaultPocoFormatter()
         {
             _stringBuilder = new StringBuilder(200);
         }

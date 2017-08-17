@@ -43,8 +43,9 @@
     <Compile Include="CheckNullCallToString.cs" />
     <Compile Include="IToStringer.cs" />
     <Compile Include="MethodInfoHolder.cs" />
+    <Compile Include="PocoToStringerConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringFormatter.cs" />
+    <Compile Include="DefaultPocoFormatter.cs" />
     <Compile Include="ToStringerInternal.cs" />
     <Compile Include="ToStringer.cs" />
   </ItemGroup>
