@@ -23,7 +23,7 @@ ToStringer.GetString(new TestClass())
 ToStringer.GetString use ConcurrentDictionary, so it have overhead. Especially in the case of multithreaded access.
 You can use generic version of ToStringer he does not have such problems.
 ```csharp
-ToStringer.GetString<TestClass>(new TestClass())
+ToStringer<TestClass>.GetString(new TestClass())
 ```
 # Configuration
  You can change default string formatter:

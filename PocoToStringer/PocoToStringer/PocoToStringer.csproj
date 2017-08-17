@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Company></Company>
+    <Authors>kellmiir</Authors>
+    <Description>Create string presentation (as manual overriding method ToString) from simple objects</Description>
+    <PackageProjectUrl />
+    <RepositoryUrl>https://github.com/kellmiir/PocoToStringer</RepositoryUrl>
+    <AssemblyVersion>0.2.0.0</AssemblyVersion>
+    <FileVersion>0.2.0.0</FileVersion>
+    <Version>0.2.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>
