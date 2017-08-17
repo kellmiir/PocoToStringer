@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BB6EC1AB-47A0-4372-B861-C8CE7CBB759E}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{5436BD6C-EAFB-4045-BEB6-BC51B460ED12}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimpleTest</RootNamespace>
-    <AssemblyName>SimpleTest</AssemblyName>
+    <RootNamespace>PocoToStringer</RootNamespace>
+    <AssemblyName>PocoToStringer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,18 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClassForTest.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="CheckNullCallToString.cs" />
+    <Compile Include="IToStringer.cs" />
+    <Compile Include="MethodInfoHolder.cs" />
+    <Compile Include="PocoToStringerConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PocoToStringer\PocoToStringer.csproj">
-      <Project>{1ac48c5a-11b2-4201-bd80-3ca2a6e38600}</Project>
-      <Name>PocoToStringer</Name>
-    </ProjectReference>
+    <Compile Include="DefaultPocoFormatter.cs" />
+    <Compile Include="ToStringerInternal.cs" />
+    <Compile Include="ToStringer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
