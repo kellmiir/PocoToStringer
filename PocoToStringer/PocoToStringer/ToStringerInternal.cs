@@ -29,9 +29,9 @@ namespace PocoToStringer
             {
                 return Expression.Call(MethodInfoHolder.MethodAddString, memberExpression);
             }
-            var genericType = typeof(ToStringer<>).MakeGenericType(memberExpression.Type);
-            return Expression.Call(typeof(ToStringer<>).MakeGenericType(memberExpression.Type).GetMethod("GetString"), memberExpression);
-            //  return Expression.Call(MethodInfoHolder.MethodGetStringFromDictionary, memberExpression);
+            return Expression.Condition(Expression.Equal(memberExpression.Expression, Expression.Constant(null)),
+                Expression.Call(typeof(ToStringer<>).MakeGenericType(memberExpression.Type).GetMethod("GetString"), memberExpression), Expression.Constant(""));
+           
         }
 
 

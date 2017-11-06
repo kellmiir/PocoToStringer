@@ -19,7 +19,7 @@ namespace SimpleTest
         public double Test4 { get; set; } = 4.1;
         public TestEnum TestEnum { get; set; } = TestEnum.FirstEnum;
         public IPAddress IpAddress { get; set; } = IPAddress.Loopback;
-        public MyClass1 Test5 { get; set; } = new MyClass1();
+        public MyClass1 Test5 { get; set; } = null;
 
         public override string ToString()
         {
