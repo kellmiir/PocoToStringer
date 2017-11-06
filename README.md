@@ -1,4 +1,4 @@
-# PocoToStringer
+# PocoToStringer [![NuGet Version](https://img.shields.io/nuget/v/PocoToStringer.svg?style=flat)](https://www.nuget.org/packages/PocoToStringer/)
   Create string presentation (as manual overriding method ToString) from simple objects
 
 ```csharp
