@@ -24,12 +24,14 @@ namespace PocoToStringer
     internal class ToStringerInternal<T> where T : class
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string Unwrap<TEnumerable>(TEnumerable enumerable) where TEnumerable:IEnumerable 
+        public string Unwrap<TEnumerable>(TEnumerable enumerable) where TEnumerable : IEnumerable
         {
+            if (enumerable == null) return String.Empty;
             StringBuilder sb = new StringBuilder(200);
             sb.Append("[");
             foreach (var val in enumerable)
             {
+                if (val == null) continue;
                 sb.Append(PocoToStringerConfiguration.ArraySeparator);
                 if (val.GetType().IsClass)
                 {
@@ -45,10 +47,10 @@ namespace PocoToStringer
         private Expression GetToStringExpression(MemberExpression memberExpression)
         {
             var type = memberExpression.Type;
-            if (type.Name!="String" && type.FindInterfaces((type1, criteria) =>type1.Name.Contains("IEnumerable"),memberExpression).Length>0)
+            if (type.Name != "String" && type.FindInterfaces((type1, criteria) => type1.Name.Contains("IEnumerable"), memberExpression).Length > 0)
             {
 
-              return  Expression.Call(Expression.Constant(this),GetType().GetMethod("Unwrap").MakeGenericMethod(type), memberExpression);
+                return Expression.Call(Expression.Constant(this), GetType().GetMethod("Unwrap").MakeGenericMethod(type), memberExpression);
 
             }
             if (!type.IsClass)
@@ -61,7 +63,7 @@ namespace PocoToStringer
             }
             return Expression.Condition(Expression.Equal(memberExpression.Expression, Expression.Constant(null)),
                 Expression.Call(typeof(ToStringer<>).MakeGenericType(type).GetMethod("GetString"), memberExpression), Expression.Constant(""));
-           
+
         }
 
         private Func<T, IPocoFormatter, string> _func;

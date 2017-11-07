@@ -31,7 +31,7 @@ namespace SimpleTest
             for (int i = 0; i < 2000000; i++)
             {
                 var y = ToStringer<MyClass>.GetString(testclass);
-                Console.WriteLine(y);
+               
             }
             sw.Stop();
             Console.WriteLine(sw.Elapsed.TotalMilliseconds);

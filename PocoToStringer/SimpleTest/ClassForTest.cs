@@ -14,7 +14,7 @@ namespace SimpleTest
     }
     public class MyClass
     {
-        public  List<int> List { get; set; }= new List<int>{1,2,3,4};
+        public  List<int> List { get; set; }//=new List<int>{1,2,3,4};
         public  List<string> Listst { get; set; }= new List<string>{"fsdfsd","fdsfdsf","sdfdsf","dsfdsfds"};
         public  List<MyClass1> ListClass { get; set; }= new List<MyClass1>{new MyClass1(), new MyClass1(), new MyClass1()};
         public int Test { get; set; } = 893;
@@ -26,6 +26,7 @@ namespace SimpleTest
 
         private string ListToString<T>(List<T> list)
         {
+            if (list==null) return String.Empty;
             StringBuilder sb = new StringBuilder(100);
             sb.Append("[");
 
