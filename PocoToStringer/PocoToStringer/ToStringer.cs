@@ -17,7 +17,7 @@ namespace PocoToStringer
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string GetString(T value) => s_toStringerInternal.GetString(value);
+        public static string GetString(T value) => value.GetType().Name=="String" ? value.ToString() : s_toStringerInternal.GetString(value);
     }
 
     [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
@@ -29,15 +29,16 @@ namespace PocoToStringer
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string GetString(object value)
         {
-            IToStringer toStringer;
-            dictionary.TryGetValue(value.GetType(), out toStringer);
+            var valueType = value.GetType();
+            if (valueType.Name == "String") return value.ToString();
+            dictionary.TryGetValue(valueType, out var toStringer);
             if (toStringer != null)
             {
                 return toStringer.GetString(value);
             }
-            var genericType = typeof(ToStringerForDictionary<>).MakeGenericType(value.GetType());
+            var genericType = typeof(ToStringerForDictionary<>).MakeGenericType(valueType);
             var instance = (IToStringer)Activator.CreateInstance(genericType);
-            dictionary.TryAdd(value.GetType(), instance);
+            dictionary.TryAdd(valueType, instance);
             return instance.GetString(value);
         }
     }

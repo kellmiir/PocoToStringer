@@ -15,12 +15,12 @@ namespace PocoToStringer
             s_formatterCreater = (Func<IPocoFormatter>)(object)(FastActivatorImpl<T>.NewFunction);
 
         static PocoToStringerConfiguration() => SetPocoFormatter<DefaultPocoFormatter>();
-
+        public static string ArraySeparator { get; set; } = ",";
         public static IPocoFormatter GetPocoFormatter() => s_formatterCreater();
         private static class FastActivatorImpl<T> where T : new()
         {
-            private static readonly Expression<Func<T>> NewExpression = () => new T();
-            public static readonly Func<T> NewFunction = NewExpression.Compile();
+            private static readonly Expression<Func<T>> s_newExpression = () => new T();
+            public static readonly Func<T> NewFunction = s_newExpression.Compile();
         }
     }
 }
