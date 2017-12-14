@@ -61,8 +61,10 @@ namespace PocoToStringer
             {
                 return Expression.Call(MethodInfoHolder.MethodAddString, memberExpression);
             }
-            return Expression.Condition(Expression.Equal(memberExpression.Expression, Expression.Constant(null)),
-                Expression.Call(typeof(ToStringer<>).MakeGenericType(type).GetMethod("GetString"), memberExpression), Expression.Constant(""));
+            
+          return Expression.Call(typeof(ToStringer<>).MakeGenericType(type).GetMethod("GetString"), memberExpression);
+          //  return Expression.Condition(Expression.NotEqual(memberExpression.Expression, Expression.Constant(null),true,null),
+          //      Expression.Call(typeof(ToStringer<>).MakeGenericType(type).GetMethod("GetString"), memberExpression), Expression.Constant(""));
 
         }
 

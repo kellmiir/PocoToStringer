@@ -17,7 +17,7 @@ namespace PocoToStringer
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string GetString(T value) => value.GetType().Name=="String" ? value.ToString() : s_toStringerInternal.GetString(value);
+        public static string GetString(T value) => value != null ? value.GetType().Name == "String" ? value.ToString() : s_toStringerInternal.GetString(value) : String.Empty;
     }
 
     [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
